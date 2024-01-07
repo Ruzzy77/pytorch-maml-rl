@@ -1,0 +1,52 @@
+[Quick Start]
+[여기 스크립트 차례대로 수행하면 됨]
+
+conda create -n mujoco
+conda install pytorch pytorch-cuda=12.1 -c pytorch -c nvidia
+conda install tqdm
+(선택) conda install black pylint isort ipykernel
+pip install gym==0.15.7
+pip install mujoco-py
+pip install "cython<3"
+
+1. mujoco 바이너리 파일 홈 폴더에 세팅   (  %USERPROFILE%\\.mujoco\\mujoco210 )
+* .mujoco 폴더 자체 압축해놨으니 사용자 홈 폴더에 옮기기만 하면 됩니다.
+
+2. VSCode 디버그에서 Training / Testing 선택하여 정상동작하는지 확인
+
+[Quick Start 끝]
+
+---------------------------------------------
+
+1. conda 환경생성
+
+> 문제 : 콘다 환경 임포트 하면 LNK1104 에러때문에 안되고 직접 환경만들어서 설치하면 정상동작함
+> 이유 확인하기 어려움
+* 환경 export : conda env export > conda_requirements.yaml
+* 환경 import : conda env create -f conda_requirements.yaml
+
+2. pytorch 설치 (cuda 11, 12 버전확인 : nvcc -V   or    nvidia-smi)
+3. pip install gym==0.15.7
+4. pip install mujoco-py              -->  mujoco 로 하면 3.0 버전 설치되며 코드 포팅 필요하므로 2.x 버전으로 설치
+5. mujoco 바이너리 파일 홈 폴더에 세팅   (  %USERPROFILE%\\.mujoco\\mujoco210 )
+* .mujoco 폴더 자체 압축해놨으니 사용자 홈 폴더에 옮기기만 하면 됩니다.
+6. pip install "cython<3"          -->  mujoco cython compile 에러 발생 해결을 위함
+
+7 .vscode/launch.json 에 train/test argument 및 path 세팅
+
+8. mujoco DLL 에러
+# https://github.com/openai/mujoco-py/issues/638
+--> os.add_dll_directory(os.path.join(os.environ["USERPROFILE"], ".mujoco/mujoco210/bin"))
+--> train.py, test.py의 첫 부분에 해당 코드 추가함
+
+9. Can't pickle local object 'make_env.<locals>._make_env
+# https://github.com/tristandeleu/pytorch-maml-rl/issues/51
+--> 이슈 참고하여 sampler.py 코드 수정함  (def make_env --> class make_env 이하 코드들)
+
+10. Unable to solve the normal equations in `LinearFeatureBaseline`
+# https://github.com/tristandeleu/pytorch-maml-rl/issues/72
+--> 이슈 참고하여 baseline.py 의 torch.lstsq를 torch.linalg.lstsq로 수정하며 관련 코드 coeff.solution에 대한 부분들 같이 수정
+
++ 빠른 실행을 위해 halfcheetah-vel.yaml 의 파라미터 수정함
+num-batches : 500 -> 5
+( test의 배치사이즈는 launch.json의 실행 아규먼트에 있음)

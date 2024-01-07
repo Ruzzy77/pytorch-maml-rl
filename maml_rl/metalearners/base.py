@@ -1,13 +1,15 @@
 import torch
 import asyncio
 
-from maml_rl.samplers import MultiTaskSampler
+from maml_rl import policies
+
+# from maml_rl.samplers import MultiTaskSampler
 
 
-class GradientBasedMetaLearner(object):
-    def __init__(self, policy, device='cpu'):
+class GradientBasedMetaLearner:
+    def __init__(self, policy, device="cpu"):
         self.device = torch.device(device)
-        self.policy = policy
+        self.policy: policies.Policy = policy
         self.policy.to(self.device)
         self._event_loop = asyncio.get_event_loop()
 

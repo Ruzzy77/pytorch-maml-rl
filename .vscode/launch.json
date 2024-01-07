@@ -1,0 +1,53 @@
+{
+    // IntelliSense를 사용하여 가능한 특성에 대해 알아보세요.
+    // 기존 특성에 대한 설명을 보려면 가리킵니다.
+    // 자세한 내용을 보려면 https://go.microsoft.com/fwlink/?linkid=830387을(를) 방문하세요.
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: 현재 파일",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Training",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/train.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--config", "configs/maml/halfcheetah-vel.yaml",
+                "--output-folder", "output/maml-halfcheetah-vel",
+                "--seed", "1",
+                // "--num-workers", "8",
+            ],
+            "env": {
+                "PATH": "${userHome}\\.mujoco\\mujoco210\\bin;${env:PATH}"
+            },
+        },
+        {
+            "name": "Testing",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/test.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--config", "output/maml-halfcheetah-vel/config.json",
+                "--policy", "output/maml-halfcheetah-vel/policy.th",
+                "--output", "output/maml-halfcheetah-vel/results.npz",
+                "--meta-batch-size", "20",
+                // "--num-batches", "10",
+                "--num-batches", "5",
+                // "--num-workers", "6",
+            ],
+            "env": {
+                "PATH": "${userHome}\\.mujoco\\mujoco210\\bin;${env:PATH}"
+            },
+        }
+    ]
+}

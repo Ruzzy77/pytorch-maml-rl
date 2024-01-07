@@ -41,10 +41,12 @@ fast-lr: 0.1
 # Optimization
 # ------------
 # Number of outer-loop updates (ie. number of batches of tasks).
-num-batches: 500
+# num-batches: 500
+num-batches: 5
 
 # Number of tasks in each batch of tasks.
-meta-batch-size: 40
+# meta-batch-size: 40
+meta-batch-size: 5
 
 # TRPO-specific
 # -------------

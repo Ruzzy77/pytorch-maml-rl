@@ -1,0 +1,40 @@
+{
+    "cSpell.enabled": false,
+    // Disable Pylint and Pylance for all workspaces
+    // "python.linting.enabled": false,
+    // "python.languageServer": "Default",
+
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnType": true,
+    "editor.formatOnPaste": false,
+    "editor.dragAndDrop": false,
+    "editor.emptySelectionClipboard": false,
+
+    "pylint.importStrategy": "fromEnvironment",
+    "isort.importStrategy": "fromEnvironment",
+    "black-formatter.importStrategy": "fromEnvironment",
+
+    "pylint.args": ["--rcfile", "${workspaceFolder}/pylint.toml"],
+    "isort.args": ["--settings-path", "${workspaceFolder}/formatter.toml"],
+    "black-formatter.args": ["--config", "${workspaceFolder}/formatter.toml"],
+
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        }
+    },
+    "isort.check": true,
+    "isort.severity": {
+        "W": "Warning",
+        "E": "Warning"
+    },
+    "pylint.severity": {
+        "convention": "Information",
+        "error": "Error",
+        "fatal": "Error",
+        "refactor": "Information",
+        "warning": "Warning",
+        "info": "Information"
+    }
+}
